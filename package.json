@@ -1,6 +1,9 @@
 {
   "name": "tableorder",
   "private": true,
+  "engines": {
+    "node": ">=20 <23"
+  },
   "workspaces": [
     "apps/*",
     "packages/*"
@@ -15,7 +18,8 @@
     "db:seed": "npm run seed -w @tableorder/api",
     "db:set-location": "npm run set-location -w @tableorder/api",
     "db:update-photos": "npm run update-photos -w @tableorder/api",
-    "build": "npm run build -w @tableorder/web && npm run build -w @tableorder/api"
+    "build": "npm run build -w @tableorder/shared && npm run build -w @tableorder/api",
+    "build:all": "npm run build -w @tableorder/shared && npm run build -w @tableorder/api && npm run build -w @tableorder/web"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"

@@ -17,7 +17,7 @@ import { initSocket, getIo } from './socket.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: resolve(__dirname, '../../../.env') });
 
-const PORT = Number(process.env.API_PORT) || 3001;
+const PORT = Number(process.env.PORT || process.env.API_PORT) || 3001;
 const HOST = process.env.API_HOST || '0.0.0.0';
 
 async function main() {
