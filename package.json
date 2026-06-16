@@ -1,0 +1,23 @@
+{
+  "name": "tableorder",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:api": "npm run dev -w @tableorder/api",
+    "dev:web": "npm run dev -w @tableorder/web",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:migrate": "npm run migrate -w @tableorder/api",
+    "db:seed": "npm run seed -w @tableorder/api",
+    "db:set-location": "npm run set-location -w @tableorder/api",
+    "db:update-photos": "npm run update-photos -w @tableorder/api",
+    "build": "npm run build -w @tableorder/web && npm run build -w @tableorder/api"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
