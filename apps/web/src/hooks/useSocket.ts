@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { io, Socket } from 'socket.io-client';
+import { API_URL } from '../lib/config';
 
 let socket: Socket | null = null;
 
@@ -8,9 +9,11 @@ export function useSocket() {
 
   useEffect(() => {
     if (!socket) {
-      socket = io({ path: '/socket.io', transports: ['websocket', 'polling'] });
-    }
-    socket.on('connect', () => setConnected(true));
+      socket = io(API_URL || undefined, {
+        path: '/socket.io',
+        transports: ['websocket', 'polling'],
+      });
+    }    socket.on('connect', () => setConnected(true));
     socket.on('disconnect', () => setConnected(false));
     return () => {
       socket?.off('connect');

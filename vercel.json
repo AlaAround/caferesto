@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build -w @tableorder/shared && npm run build -w @tableorder/web",
+  "outputDirectory": "apps/web/dist",
+  "installCommand": "npm install",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/((?!assets|sw.js|workbox|manifest|favicon|pwa|registerSW).*)", "destination": "/index.html" }
+  ]
+}

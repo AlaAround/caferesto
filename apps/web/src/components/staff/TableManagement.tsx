@@ -3,6 +3,7 @@ import {
   QrCode, Plus, Trash2, Loader2, Download, Copy, Check, X, Info,
 } from 'lucide-react';
 import { api } from '../../lib/api';
+import { apiUrl } from '../../lib/config';
 
 interface Table {
   id: string;
@@ -107,7 +108,7 @@ export default function TableManagement({ venueId, staffId, staffRole }: Props) 
   function downloadQr() {
     if (!qrModal) return;
     const link = document.createElement('a');
-    link.href = `/api/staff/venues/${venueId}/tables/${qrModal.tableId}/qr?download=1`;
+    link.href = apiUrl(`/api/staff/venues/${venueId}/tables/${qrModal.tableId}/qr?download=1`);
     link.download = `table-${qrModal.tableNumber}-qr.png`;
     link.click();
   }

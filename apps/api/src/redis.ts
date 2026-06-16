@@ -1,8 +1,38 @@
 import { Redis } from 'ioredis';
 
-export const redis = new Redis(process.env.REDIS_URL || 'redis://localhost:6379', {
+/**
+ * Normalise REDIS_URL — users often paste the full Upstash CLI command by mistake.
+ * Valid:   rediss://default:TOKEN@host.upstash.io:6379
+ * Invalid: redis-cli --tls -u rediss://default:TOKEN@host.upstash.io:6379
+ */
+export function resolveRedisUrl(raw?: string): string {
+  if (!raw?.trim()) return 'redis://localhost:6379';
+
+  let url = raw.trim().replace(/^["']|["']$/g, '');
+
+  // Extract embedded redis(s):// URL from a pasted CLI command
+  const match = url.match(/(rediss?:\/\/[^\s'"`]+)/i);
+  if (match) url = match[1];
+
+  try {
+    new URL(url);
+  } catch {
+    throw new Error(
+      'Invalid REDIS_URL. Paste ONLY the Upstash connection string, for example:\n' +
+        '  rediss://default:YOUR_TOKEN@your-db.upstash.io:6379\n' +
+        'Do NOT include "redis-cli --tls -u" in the value.'
+    );
+  }
+
+  return url;
+}
+
+const redisUrl = resolveRedisUrl(process.env.REDIS_URL);
+
+export const redis = new Redis(redisUrl, {
   maxRetriesPerRequest: 3,
   lazyConnect: true,
+  ...(redisUrl.startsWith('rediss://') ? { tls: {} } : {}),
 });
 
 export const REDIS_KEYS = {

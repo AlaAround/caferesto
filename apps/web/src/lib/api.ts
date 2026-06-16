@@ -1,8 +1,12 @@
-const API_BASE = '/api';
+import { API_URL } from './config';
+
+function apiBase(): string {
+  return API_URL ? `${API_URL}/api` : '/api';
+}
 
 export async function api<T>(path: string, options?: RequestInit): Promise<T> {
   const { headers, ...rest } = options ?? {};
-  const res = await fetch(`${API_BASE}${path}`, {
+  const res = await fetch(`${apiBase()}${path}`, {
     ...rest,
     headers: {
       'Content-Type': 'application/json',

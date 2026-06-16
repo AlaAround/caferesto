@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { apiUrl } from '../../lib/config';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell,
@@ -24,7 +25,7 @@ export default function AnalyticsPanel({ venueId }: Props) {
   const [data, setData] = useState<Analytics | null>(null);
 
   useEffect(() => {
-    fetch(`/api/staff/venues/${venueId}/analytics/today`)
+    fetch(apiUrl(`/api/staff/venues/${venueId}/analytics/today`))
       .then((r) => r.json())
       .then(setData);
   }, [venueId]);
